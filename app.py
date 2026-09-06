@@ -1,8 +1,3 @@
-"""Flight Finder: FastAPI backend + a small delay-risk ML model.
-
-Set AMADEUS_CLIENT_ID and AMADEUS_CLIENT_SECRET before starting the app.
-Create free test credentials at https://developers.amadeus.com/.
-"""
 import asyncio
 import json
 import os
@@ -26,18 +21,14 @@ SAMPLE_DATA_FILE = Path("data/ib5634_serpapi.json")
 
 
 def build_delay_model() -> RandomForestClassifier:
-    """Train a tiny deterministic demo classifier at startup.
-
-    Replace this generated sample with historical airline/on-time data when
-    deploying. Inputs are departure hour, route length, weekend, and carrier.
-    """
+  
     rng = np.random.default_rng(42)
     n = 2500
     hour = rng.integers(0, 24, n)
     distance = rng.integers(250, 9000, n)
     weekend = rng.integers(0, 2, n)
     carrier_code = rng.integers(0, 8, n)
-    # Late-day, longer flights and a small carrier effect raise delay chance.
+ 
     score = -3.0 + 0.09 * np.maximum(hour - 14, 0) + distance / 9000
     score += 0.22 * weekend + 0.12 * carrier_code + rng.normal(0, 0.6, n)
     delayed = (score > 0).astype(int)
@@ -105,7 +96,7 @@ def parse_live_flight(item: dict[str, Any], search: FlightSearch) -> dict[str, A
         departure_hour = datetime.fromisoformat(scheduled.replace("Z", "+00:00")).hour
     except ValueError:
         departure_hour = 12
-    # Provider schedules do not always include route distance; use a neutral 1,500 km estimate.
+ 
     carrier_number = sum(ord(c) for c in str(airline)) % 8
     risk = float(delay_model.predict_proba([[departure_hour, 1500, int(search.departure_date.weekday() >= 5), carrier_number]])[0][1])
     flight = item.get("flightNumber") or segment.get("number") or re.sub(r"^[A-Z0-9]{2,3}", "", search.flight_number)
@@ -188,8 +179,7 @@ async def results_page():
 
 @app.post("/api/flight")
 async def get_flight(search: FlightSearch):
-    # SerpApi/Google is the primary provider. It also enables the included IB5634
-    # JSON demo without credentials.
+  
     if serpapi_credentials_present() or search.flight_number == "IB5634":
         return parse_serpapi_flight(await get_serpapi_result(search), search)
     if not credentials_present():
