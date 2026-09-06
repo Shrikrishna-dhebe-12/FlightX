@@ -1,0 +1,21 @@
+{
+  "flight_result": {
+    "title": "Iberia IB 5634",
+    "flight_designator": "IB 5634",
+    "route": "Barcelona to Lisbon",
+    "airline": "Iberia",
+    "airline_iata_code": "IB",
+    "dates": [
+      {
+        "date": "2026-04-23",
+        "metadata": {"airline_iata_code": "VY", "flight_number": "8466", "origin": "BCN", "destination": "LIS", "status": "DEPARTING_ON_TIME", "departure_delay": 0, "arrival_delay": 0},
+        "flight_designator": "IB 5634",
+        "departure_airport": {"time": "2026-04-23T12:10:00.000+02:00", "scheduled_time": "2026-04-23T12:10:00.000+02:00", "terminal": "1", "id": "BCN", "city": "Barcelona", "time_label": "12:10 PM", "gate": "-", "status": "Scheduled departure"},
+        "arrival_airport": {"time": "2026-04-23T13:20:00.000+01:00", "scheduled_time": "2026-04-23T13:20:00.000+01:00", "terminal": "1", "id": "LIS", "city": "Lisbon", "time_label": "1:20 PM", "gate": "-", "status": "Scheduled arrival"},
+        "duration": 130,
+        "source": "Cirium",
+        "status": "Departing on time"
+      }
+    ]
+  }
+}
